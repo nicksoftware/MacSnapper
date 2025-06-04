@@ -1,5 +1,6 @@
 import Foundation
 import ServiceManagement
+import AppKit
 
 /// Service for managing launch at login functionality
 /// Uses modern Service Management framework (macOS 13+) with fallback for older systems
@@ -152,5 +153,27 @@ extension LaunchAtLoginService {
         }
 
         return isEnabled ? "App will launch at login" : "App will not launch at login"
+    }
+}
+
+// MARK: - Logger
+
+private struct Logger {
+    let category: String
+
+    func debug(_ message: String) {
+        print("🔍 [\(category)] \(message)")
+    }
+
+    func info(_ message: String) {
+        print("ℹ️ [\(category)] \(message)")
+    }
+
+    func warning(_ message: String) {
+        print("⚠️ [\(category)] \(message)")
+    }
+
+    func error(_ message: String) {
+        print("❌ [\(category)] \(message)")
     }
 }
