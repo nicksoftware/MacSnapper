@@ -1,0 +1,277 @@
+name: Build and Release Mac Snap
+
+on:
+  push:
+    branches: [main, production, develop]
+    tags: ["v*"]
+  pull_request:
+    branches: [main, production]
+
+env:
+  APP_NAME: "Mac Snap"
+  XCODE_VERSION: "16.0"
+
+jobs:
+  build:
+    name: Build and Test
+    runs-on: macos-15
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Xcode
+        uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: ${{ env.XCODE_VERSION }}
+
+      - name: Get App Version
+        id: version
+        run: |
+          if [[ $GITHUB_REF == refs/tags/* ]]; then
+            VERSION=${GITHUB_REF#refs/tags/v}
+          else
+            VERSION=$(defaults read "$(pwd)/MacSnapper/Info.plist" CFBundleShortVersionString 2>/dev/null || echo "1.0.0")
+            VERSION="${VERSION}-${GITHUB_SHA::8}"
+          fi
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "Version: $VERSION"
+
+      - name: Cache Xcode DerivedData
+        uses: actions/cache@v4
+        with:
+          path: ~/Library/Developer/Xcode/DerivedData
+          key: ${{ runner.os }}-xcode-${{ hashFiles('**/*.xcodeproj') }}-${{ hashFiles('**/*.swift') }}
+          restore-keys: |
+            ${{ runner.os }}-xcode-${{ hashFiles('**/*.xcodeproj') }}-
+            ${{ runner.os }}-xcode-
+
+      - name: Build Debug
+        run: |
+          xcodebuild -project MacSnapper.xcodeproj \
+            -scheme MacSnapper \
+            -configuration Debug \
+            -destination 'platform=macOS' \
+            clean build \
+            CODE_SIGNING_ALLOWED=NO
+
+      - name: Run Tests
+        run: |
+          xcodebuild -project MacSnapper.xcodeproj \
+            -scheme MacSnapper \
+            -configuration Debug \
+            -destination 'platform=macOS' \
+            test \
+            CODE_SIGNING_ALLOWED=NO
+
+      - name: Build Release (Unsigned)
+        if: github.ref != 'refs/heads/main' && !startsWith(github.ref, 'refs/tags/')
+        run: |
+          xcodebuild -project MacSnapper.xcodeproj \
+            -scheme MacSnapper \
+            -configuration Release \
+            -destination 'platform=macOS' \
+            -derivedDataPath build/DerivedData \
+            clean build \
+            CODE_SIGNING_ALLOWED=NO
+
+      - name: Upload Build Artifacts
+        if: github.ref != 'refs/heads/main' && !startsWith(github.ref, 'refs/tags/')
+        uses: actions/upload-artifact@v4
+        with:
+          name: mac-snap-unsigned-${{ steps.version.outputs.version }}
+          path: build/DerivedData/Build/Products/Release/MacSnapper.app
+          retention-days: 7
+
+  release:
+    name: Create Release
+    runs-on: macos-15
+    needs: build
+    if: startsWith(github.ref, 'refs/tags/')
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Xcode
+        uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: ${{ env.XCODE_VERSION }}
+
+      - name: Get Version
+        id: version
+        run: |
+          VERSION=${GITHUB_REF#refs/tags/v}
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "Version: $VERSION"
+
+      - name: Import Code Signing Certificates
+        if: ${{ secrets.CERTIFICATES_P12 != '' }}
+        uses: apple-actions/import-codesign-certs@v3
+        with:
+          p12-file-base64: ${{ secrets.CERTIFICATES_P12 }}
+          p12-password: ${{ secrets.CERTIFICATES_PASSWORD }}
+
+      - name: Download Provisioning Profiles
+        if: ${{ secrets.PROVISIONING_PROFILE != '' }}
+        uses: apple-actions/download-provisioning-profiles@v3
+        with:
+          bundle-id: com.nicksoftware.macsnap
+          profile-type: "MAC_APP_STORE"
+          issuer-id: ${{ secrets.APPSTORE_ISSUER_ID }}
+          api-key-id: ${{ secrets.APPSTORE_KEY_ID }}
+          api-private-key: ${{ secrets.APPSTORE_PRIVATE_KEY }}
+
+      - name: Build and Archive
+        run: |
+          # Update version in Info.plist
+          /usr/libexec/PlistBuddy -c "Set :CFBundleShortVersionString ${{ steps.version.outputs.version }}" MacSnapper/Info.plist
+          /usr/libexec/PlistBuddy -c "Set :CFBundleVersion ${{ github.run_number }}" MacSnapper/Info.plist
+
+          # Build and archive
+          xcodebuild -project MacSnapper.xcodeproj \
+            -scheme MacSnapper \
+            -configuration Release \
+            -destination 'platform=macOS' \
+            -archivePath build/MacSnapper.xcarchive \
+            clean archive
+
+      - name: Export App
+        run: |
+          xcodebuild -exportArchive \
+            -archivePath build/MacSnapper.xcarchive \
+            -exportPath build \
+            -exportOptionsPlist scripts/ExportOptions.plist
+
+      - name: Make Scripts Executable
+        run: |
+          chmod +x scripts/create_dmg.sh
+          chmod +x scripts/create_dmg_simple.sh
+
+      - name: Create DMG Installer
+        run: |
+          # Install required tools
+          brew install librsvg 2>/dev/null || true
+
+          # Try the styled DMG first, fallback to simple if it fails
+          if ! ./scripts/create_dmg.sh; then
+            echo "⚠️  Styled DMG creation failed, using simple DMG..."
+            ./scripts/create_dmg_simple.sh
+          fi
+
+      - name: Generate Release Notes
+        id: release_notes
+        run: |
+          if [ -f CHANGELOG.md ]; then
+            # Extract latest version notes from CHANGELOG
+            NOTES=$(sed -n '/^## \[${{ steps.version.outputs.version }}\]/,/^## \[/p' CHANGELOG.md | head -n -1 | tail -n +2)
+          else
+            # Default release notes
+            NOTES="🎉 Mac Snap v${{ steps.version.outputs.version }}
+
+          ### What's New
+          - Professional window snapping for macOS
+          - Global hotkeys for instant window management
+          - Freemium model with premium features
+          - Launch at login support
+          - Multi-monitor support
+
+          ### Installation
+          1. Download and open the DMG file
+          2. Drag Mac Snap to Applications folder
+          3. Launch and grant Accessibility permissions
+          4. Start snapping windows!"
+          fi
+
+          # Save to file for upload
+          echo "$NOTES" > release_notes.txt
+          echo "Generated release notes"
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          name: Mac Snap v${{ steps.version.outputs.version }}
+          body_path: release_notes.txt
+          files: |
+            dist/MacSnap-Installer-${{ steps.version.outputs.version }}.dmg
+            build/MacSnapper.app.dSYM.zip
+          draft: false
+          prerelease: ${{ contains(steps.version.outputs.version, 'beta') || contains(steps.version.outputs.version, 'alpha') }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Upload DMG Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: mac-snap-installer-${{ steps.version.outputs.version }}
+          path: dist/MacSnap-Installer-${{ steps.version.outputs.version }}.dmg
+          retention-days: 90
+
+  app-store-build:
+    name: App Store Build
+    runs-on: macos-15
+    needs: build
+    if: github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/tags/')
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Xcode
+        uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: ${{ env.XCODE_VERSION }}
+
+      - name: Import App Store Certificates
+        if: ${{ secrets.APP_STORE_CONNECT_PRIVATE_KEY != '' }}
+        uses: apple-actions/import-codesign-certs@v3
+        with:
+          p12-file-base64: ${{ secrets.APP_STORE_CERTIFICATES_P12 }}
+          p12-password: ${{ secrets.APP_STORE_CERTIFICATES_PASSWORD }}
+
+      - name: Download App Store Provisioning Profile
+        if: ${{ secrets.APP_STORE_CONNECT_PRIVATE_KEY != '' }}
+        uses: apple-actions/download-provisioning-profiles@v3
+        with:
+          bundle-id: com.nicksoftware.macsnap
+          profile-type: "MAC_APP_STORE"
+          issuer-id: ${{ secrets.APPSTORE_ISSUER_ID }}
+          api-key-id: ${{ secrets.APPSTORE_KEY_ID }}
+          api-private-key: ${{ secrets.APPSTORE_PRIVATE_KEY }}
+
+      - name: Build for App Store
+        if: ${{ secrets.APP_STORE_CONNECT_PRIVATE_KEY != '' }}
+        run: |
+          xcodebuild -project MacSnapper.xcodeproj \
+            -scheme MacSnapper \
+            -configuration Release \
+            -destination 'platform=macOS' \
+            -archivePath build/MacSnapper-AppStore.xcarchive \
+            clean archive
+
+      - name: Upload to App Store Connect
+        if: ${{ secrets.APP_STORE_CONNECT_PRIVATE_KEY != '' && startsWith(github.ref, 'refs/tags/') }}
+        run: |
+          # Create App Store export options
+          cat > AppStoreExportOptions.plist << EOF
+          <?xml version="1.0" encoding="UTF-8"?>
+          <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+          <plist version="1.0">
+          <dict>
+              <key>method</key>
+              <string>app-store</string>
+              <key>destination</key>
+              <string>upload</string>
+          </dict>
+          </plist>
+          EOF
+
+          # Export and upload
+          xcodebuild -exportArchive \
+            -archivePath build/MacSnapper-AppStore.xcarchive \
+            -exportPath build/AppStore \
+            -exportOptionsPlist AppStoreExportOptions.plist
