@@ -282,35 +282,8 @@ struct RealProductCard: View {
     }
 }
 
-// MARK: - Feature Row Component (Reuse from UpgradeView)
-
-struct FeatureRow: View {
-    let feature: PremiumFeature
-    let isIncluded: Bool
-
-    var body: some View {
-        HStack(spacing: 12) {
-            Image(systemName: isIncluded ? "checkmark.circle.fill" : "xmark.circle.fill")
-                .foregroundColor(isIncluded ? .green : .red)
-                .font(.title3)
-
-            VStack(alignment: .leading, spacing: 2) {
-                Text(feature.displayName)
-                    .font(.body)
-                    .fontWeight(.medium)
-
-                Text(feature.description)
-                    .font(.caption)
-                    .foregroundColor(.secondary)
-                    .lineLimit(2)
-            }
-
-            Spacer()
-        }
-        .padding()
-        .background(.regularMaterial, in: RoundedRectangle(cornerRadius: 8))
-    }
-}
+// MARK: - Feature Row Component
+// Note: FeatureRow is defined in UpgradeView.swift and reused here
 
 // MARK: - Preview
 

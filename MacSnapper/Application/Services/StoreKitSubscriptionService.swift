@@ -188,7 +188,7 @@ public final class StoreKitSubscriptionService: ObservableObject {
     private func checkVerified<T>(_ result: VerificationResult<T>) throws -> T {
         switch result {
         case .unverified:
-            throw StoreKitError(.failedVerification)
+            throw SubscriptionError.invalidReceipt
         case .verified(let transaction):
             return transaction
         }
@@ -285,10 +285,8 @@ public final class StoreKitSubscriptionService: ObservableObject {
     }
 }
 
-// MARK: - Supporting Types (reuse existing ones)
-
-// The SubscriptionStatus, PremiumFeature, and SubscriptionError enums
-// remain the same as they are in the original SubscriptionService.swift
+// MARK: - Supporting Types
+// Note: Uses shared types from SubscriptionService.swift to avoid conflicts
 
 // MARK: - Logger
 
