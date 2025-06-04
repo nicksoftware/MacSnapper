@@ -27,6 +27,7 @@ struct MacSnapperApp: App {
                 .environmentObject(container.windowManagementUseCase)
                 .environmentObject(container.subscriptionService)
                 .environmentObject(container.globalHotkeyService)
+                .environmentObject(container.launchAtLoginService)
                 .onAppear {
                     setupApp()
                 }
@@ -53,6 +54,7 @@ struct MacSnapperApp: App {
                 .environmentObject(container.windowManagementUseCase)
                 .environmentObject(container.subscriptionService)
                 .environmentObject(container.globalHotkeyService)
+                .environmentObject(container.launchAtLoginService)
         }
         .menuBarExtraStyle(.window)
     }

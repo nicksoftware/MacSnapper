@@ -8,6 +8,7 @@ struct GeneralSettingsView: View {
 
     @EnvironmentObject private var windowManagement: WindowManagementUseCase
     @EnvironmentObject private var globalHotkeyService: GlobalHotkeyService
+    @EnvironmentObject private var launchAtLoginService: LaunchAtLoginService
 
     // MARK: - State
 
@@ -49,6 +50,9 @@ struct GeneralSettingsView: View {
         }
         .onChange(of: runInBackground) { oldValue, newValue in
             handleBackgroundModeToggle(enabled: newValue)
+        }
+        .onChange(of: launchAtLogin) { oldValue, newValue in
+            handleLaunchAtLoginToggle(enabled: newValue)
         }
     }
 
@@ -160,7 +164,7 @@ struct GeneralSettingsView: View {
             VStack(spacing: 12) {
                 SettingRow(
                     title: "Launch at Login",
-                    description: "Start MacSnapper automatically when you log in",
+                    description: launchAtLoginService.statusMessage,
                     systemImage: "power",
                     isOn: $launchAtLogin
                 )
@@ -230,6 +234,12 @@ struct GeneralSettingsView: View {
             }
         }
         #endif
+    }
+
+    private func handleLaunchAtLoginToggle(enabled: Bool) {
+        Task {
+            await launchAtLoginService.setLaunchAtLogin(enabled: enabled)
+        }
     }
 
     private func openAccessibilityPreferences() {

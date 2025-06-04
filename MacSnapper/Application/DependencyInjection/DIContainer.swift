@@ -120,6 +120,10 @@ private extension DIContainer {
         let globalHotkeyService = GlobalHotkeyService()
         register(GlobalHotkeyService.self, service: globalHotkeyService)
 
+        // Register launch at login service
+        let launchAtLoginService = LaunchAtLoginService()
+        register(LaunchAtLoginService.self, service: launchAtLoginService)
+
         // Register screen service with dependency
         register(ScreenServiceProtocol.self) { [weak self] in
             guard let windowRepo = self?.resolveSafely(WindowRepositoryProtocol.self) else {
@@ -209,6 +213,15 @@ extension DIContainer {
             return try resolve(GlobalHotkeyService.self)
         } catch {
             fatalError("GlobalHotkeyService not registered: \(error)")
+        }
+    }
+
+    /// Convenience method to get the launch at login service
+    public var launchAtLoginService: LaunchAtLoginService {
+        do {
+            return try resolve(LaunchAtLoginService.self)
+        } catch {
+            fatalError("LaunchAtLoginService not registered: \(error)")
         }
     }
 }
