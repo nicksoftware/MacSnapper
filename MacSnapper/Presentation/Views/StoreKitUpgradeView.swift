@@ -77,7 +77,7 @@ struct StoreKitUpgradeView: View {
                 .font(.system(size: 64))
                 .foregroundStyle(.orange.gradient)
 
-            Text("MacSnapper Pro")
+                                Text("Mac Snap Pro")
                 .font(.largeTitle)
                 .fontWeight(.bold)
 

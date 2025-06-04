@@ -18,9 +18,9 @@ public final class SubscriptionService: ObservableObject {
     private var cancellables = Set<AnyCancellable>()
 
     // Keys for UserDefaults
-    private let subscriptionStatusKey = "MacSnapper.SubscriptionStatus"
-    private let subscriptionExpiryKey = "MacSnapper.SubscriptionExpiry"
-    private let trialUsedKey = "MacSnapper.TrialUsed"
+    private let subscriptionStatusKey = "MacSnap.SubscriptionStatus"
+    private let subscriptionExpiryKey = "MacSnap.SubscriptionExpiry"
+    private let trialUsedKey = "MacSnap.TrialUsed"
 
     // MARK: - Initialization
 

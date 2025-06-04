@@ -35,7 +35,7 @@ struct MainView: View {
                 PermissionRequestView()
             }
         }
-        .navigationTitle("MacSnapper")
+                    .navigationTitle("Mac Snap")
         .toolbar {
             ToolbarItemGroup(placement: .primaryAction) {
                 Button("Settings") {
@@ -246,7 +246,7 @@ struct PermissionRequestView: View {
                 Text("Accessibility Permissions Required")
                     .font(.title2.weight(.semibold))
 
-                Text("MacSnapper needs accessibility permissions to manage windows. This allows the app to move and resize windows from other applications.")
+                Text("Mac Snap needs accessibility permissions to manage windows. This allows the app to move and resize windows from other applications.")
                     .font(.body)
                     .multilineTextAlignment(.center)
                     .foregroundColor(.secondary)
@@ -274,8 +274,8 @@ struct PermissionRequestView: View {
                 VStack(alignment: .leading, spacing: 4) {
                     Label("System Settings will open", systemImage: "1.circle.fill")
                     Label("Go to Privacy & Security → Accessibility", systemImage: "2.circle.fill")
-                    Label("Enable MacSnapper in the list", systemImage: "3.circle.fill")
-                    Label("Restart MacSnapper", systemImage: "4.circle.fill")
+                    Label("Enable Mac Snap in the list", systemImage: "3.circle.fill")
+                    Label("Restart Mac Snap", systemImage: "4.circle.fill")
                 }
                 .font(.caption)
                 .foregroundColor(.secondary)

@@ -10,8 +10,8 @@ public final class StoreKitSubscriptionService: ObservableObject {
     // MARK: - Product IDs (configure these in App Store Connect)
 
     public enum ProductID: String, CaseIterable {
-        case monthlyPremium = "com.nicksoftware.macsnapper.premium.monthly"
-        case annualPremium = "com.nicksoftware.macsnapper.premium.annual"
+        case monthlyPremium = "com.nicksoftware.macsnap.premium.monthly"
+        case annualPremium = "com.nicksoftware.macsnap.premium.annual"
 
         var displayName: String {
             switch self {
@@ -237,7 +237,7 @@ public final class StoreKitSubscriptionService: ObservableObject {
     private func shouldShowTrial() -> Bool {
         // Implement trial logic based on your needs
         // For now, allowing trial for all free users
-        return !UserDefaults.standard.bool(forKey: "MacSnapper.TrialUsed")
+        return !UserDefaults.standard.bool(forKey: "MacSnap.TrialUsed")
     }
 
     /// Starts a trial subscription (free trial implementation)
@@ -257,8 +257,8 @@ public final class StoreKitSubscriptionService: ObservableObject {
         let expiryDate = Calendar.current.date(byAdding: .day, value: 7, to: Date()) ?? Date()
 
         await MainActor.run {
-            UserDefaults.standard.set(true, forKey: "MacSnapper.TrialUsed")
-            UserDefaults.standard.set(expiryDate, forKey: "MacSnapper.TrialExpiry")
+            UserDefaults.standard.set(true, forKey: "MacSnap.TrialUsed")
+            UserDefaults.standard.set(expiryDate, forKey: "MacSnap.TrialExpiry")
             self.subscriptionStatus = .trial(expiryDate: expiryDate)
             self.isLoading = false
         }

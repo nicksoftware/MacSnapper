@@ -1,6 +1,6 @@
-# MacSnapper 🪟
+# Mac Snap 🪟
 
-A professional macOS window manager built with SwiftUI and Clean Architecture principles. MacSnapper provides powerful window snapping and management capabilities with a beautiful, intuitive interface.
+A professional macOS window manager built with SwiftUI and Clean Architecture principles. Mac Snap provides powerful window snapping and management capabilities with a beautiful, intuitive interface.
 
 ![Swift](https://img.shields.io/badge/Swift-5.9-orange.svg)
 ![Platform](https://img.shields.io/badge/Platform-macOS%2014.0+-blue.svg)
@@ -29,7 +29,7 @@ A professional macOS window manager built with SwiftUI and Clean Architecture pr
 
 ## 🏗️ Architecture
 
-MacSnapper follows Clean Architecture principles with clear separation between layers:
+Mac Snap follows Clean Architecture principles with clear separation between layers:
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
@@ -176,26 +176,26 @@ MacSnapper/
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/yourusername/MacSnapper.git
-   cd MacSnapper
+   git clone https://github.com/yourusername/MacSnap.git
+cd MacSnap
    ```
 
 2. **Open in Xcode**
    ```bash
-   open MacSnapper.xcodeproj
+   open MacSnap.xcodeproj
    ```
 
 3. **Build and Run**
-   - Select the MacSnapper target
+   - Select the Mac Snap target
    - Press `Cmd+R` to build and run
 
 ### First Launch Setup
 
 1. **Grant Accessibility Permissions**
-   - MacSnapper will prompt for accessibility permissions on first launch
+   - Mac Snap will prompt for accessibility permissions on first launch
    - Click "Grant Permissions" and follow the system prompts
    - Go to System Settings > Privacy & Security > Accessibility
-   - Enable MacSnapper in the list
+   - Enable Mac Snap in the list
 
 2. **Start Managing Windows**
    - Open some applications to see their windows in the sidebar

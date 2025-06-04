@@ -53,7 +53,7 @@ struct MenuBarView: View {
             HStack {
                 Image(systemName: "rectangle.3.offgrid")
                     .foregroundColor(.accentColor)
-                Text("MacSnapper")
+                Text("Mac Snap")
                     .font(.headline)
                 Spacer()
             }
@@ -148,7 +148,7 @@ struct MenuBarView: View {
             } label: {
                 HStack {
                     Image(systemName: "macwindow")
-                    Text("Open MacSnapper")
+                    Text("Open Mac Snap")
                     Spacer()
                 }
                 .foregroundColor(.primary)
@@ -178,7 +178,7 @@ struct MenuBarView: View {
             } label: {
                 HStack {
                     Image(systemName: "power")
-                    Text("Quit MacSnapper")
+                    Text("Quit Mac Snap")
                     Spacer()
                 }
                 .foregroundColor(.primary)

@@ -35,7 +35,7 @@ struct MacSnapperApp: App {
         .windowResizability(.contentSize)
         .commands {
             CommandGroup(replacing: .appInfo) {
-                Button("About MacSnapper") {
+                Button("About Mac Snap") {
                     appDelegate.showAbout()
                 }
             }
@@ -48,7 +48,7 @@ struct MacSnapperApp: App {
         }
 
         // Menu bar extra for quick access - keeps app running in background
-        MenuBarExtra("MacSnapper", systemImage: "rectangle.3.offgrid") {
+        MenuBarExtra("Mac Snap", systemImage: "rectangle.3.offgrid") {
             MenuBarView()
                 .environmentObject(container.windowManagementUseCase)
                 .environmentObject(container.subscriptionService)
@@ -64,7 +64,7 @@ struct MacSnapperApp: App {
         setupBackgroundOperation()
 
         // Configure logging
-        print("🚀 MacSnapper Pro starting up...")
+        print("🚀 Mac Snap Pro starting up...")
         print("📦 Dependency container initialized")
 
         // Setup global hotkeys (works in background)
@@ -87,7 +87,7 @@ struct MacSnapperApp: App {
         #if canImport(AppKit)
         // Check user preference for background operation (default: false for better user experience)
         // Advanced users can enable background mode in settings for optimal performance
-        let runInBackground = UserDefaults.standard.object(forKey: "MacSnapper.RunInBackground") as? Bool ?? false
+        let runInBackground = UserDefaults.standard.object(forKey: "MacSnap.RunInBackground") as? Bool ?? false
 
         if runInBackground {
             // Run in background (no dock icon) - fastest hotkey response
@@ -156,8 +156,8 @@ struct MacSnapperApp: App {
 
     private func showWindowIfNeeded() {
         #if canImport(AppKit)
-        let isFirstLaunch = !UserDefaults.standard.bool(forKey: "MacSnapper.HasLaunchedBefore")
-        let runInBackground = UserDefaults.standard.object(forKey: "MacSnapper.RunInBackground") as? Bool ?? false
+        let isFirstLaunch = !UserDefaults.standard.bool(forKey: "MacSnap.HasLaunchedBefore")
+        let runInBackground = UserDefaults.standard.object(forKey: "MacSnap.RunInBackground") as? Bool ?? false
 
         // Show window on first launch or if not in background mode
         if isFirstLaunch || !runInBackground {
@@ -173,7 +173,7 @@ struct MacSnapperApp: App {
 
             // Mark that we've launched before
             if isFirstLaunch {
-                UserDefaults.standard.set(true, forKey: "MacSnapper.HasLaunchedBefore")
+                UserDefaults.standard.set(true, forKey: "MacSnap.HasLaunchedBefore")
                 print("👋 First launch - showing welcome window")
             }
         }
@@ -192,27 +192,27 @@ class MacSnapperAppDelegate: ObservableObject {
         // Handle app state changes to ensure hotkeys work in background
         NotificationCenter.default.publisher(for: NSApplication.didBecomeActiveNotification)
             .sink { _ in
-                print("📱 MacSnapper became active")
+                print("📱 Mac Snap became active")
                 self.isInBackground = false
             }
             .store(in: &cancellables)
 
         NotificationCenter.default.publisher(for: NSApplication.didResignActiveNotification)
             .sink { _ in
-                print("📱 MacSnapper went to background - hotkeys still active")
+                print("📱 Mac Snap went to background - hotkeys still active")
                 self.isInBackground = true
             }
             .store(in: &cancellables)
 
         NotificationCenter.default.publisher(for: NSApplication.didHideNotification)
             .sink { _ in
-                print("📱 MacSnapper hidden - hotkeys still active")
+                print("📱 Mac Snap hidden - hotkeys still active")
             }
             .store(in: &cancellables)
 
         NotificationCenter.default.publisher(for: NSApplication.didUnhideNotification)
             .sink { _ in
-                print("📱 MacSnapper unhidden")
+                print("📱 Mac Snap unhidden")
             }
             .store(in: &cancellables)
         #endif

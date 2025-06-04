@@ -132,7 +132,7 @@ public enum WindowRepositoryError: LocalizedError, Equatable {
     public var recoverySuggestion: String? {
         switch self {
         case .accessibilityPermissionsDenied:
-            return "Go to System Settings > Privacy & Security > Accessibility and enable MacSnapper."
+            return "Go to System Settings > Privacy & Security > Accessibility and enable Mac Snap."
         case .windowNotFound, .applicationNotFound:
             return "Try refreshing the window list or check if the application is still running."
         case .systemError:

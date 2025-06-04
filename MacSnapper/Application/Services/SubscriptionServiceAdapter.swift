@@ -13,7 +13,7 @@ public final class SubscriptionServiceAdapter: ObservableObject {
     public static let useRealStoreKit: Bool = {
         #if DEBUG
         // Use simulated service in debug builds for easier testing
-        return UserDefaults.standard.bool(forKey: "MacSnapper.UseRealStoreKit")
+        return UserDefaults.standard.bool(forKey: "MacSnap.UseRealStoreKit")
         #else
         // Always use real StoreKit in release builds
         return true
@@ -163,12 +163,12 @@ extension SubscriptionServiceAdapter {
 
     /// Switches to real StoreKit for testing (debug builds only)
     public static func enableRealStoreKit() {
-        UserDefaults.standard.set(true, forKey: "MacSnapper.UseRealStoreKit")
+        UserDefaults.standard.set(true, forKey: "MacSnap.UseRealStoreKit")
     }
 
     /// Switches to simulated service for testing (debug builds only)
     public static func enableSimulatedService() {
-        UserDefaults.standard.set(false, forKey: "MacSnapper.UseRealStoreKit")
+        UserDefaults.standard.set(false, forKey: "MacSnap.UseRealStoreKit")
     }
 }
 #endif

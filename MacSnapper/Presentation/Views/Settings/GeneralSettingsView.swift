@@ -11,13 +11,13 @@ struct GeneralSettingsView: View {
 
     // MARK: - State
 
-    @AppStorage("MacSnapper.LaunchAtLogin") private var launchAtLogin = false
-    @AppStorage("MacSnapper.ShowMenuBarIcon") private var showMenuBarIcon = true
-    @AppStorage("MacSnapper.EnableHotkeys") private var enableHotkeys = true
-    @AppStorage("MacSnapper.ShowNotifications") private var showNotifications = true
-    @AppStorage("MacSnapper.AnimateWindows") private var animateWindows = true
-    @AppStorage("MacSnapper.RestoreOnLaunch") private var restoreOnLaunch = true
-    @AppStorage("MacSnapper.RunInBackground") private var runInBackground = false
+    @AppStorage("MacSnap.LaunchAtLogin") private var launchAtLogin = false
+    @AppStorage("MacSnap.ShowMenuBarIcon") private var showMenuBarIcon = true
+    @AppStorage("MacSnap.EnableHotkeys") private var enableHotkeys = true
+    @AppStorage("MacSnap.ShowNotifications") private var showNotifications = true
+    @AppStorage("MacSnap.AnimateWindows") private var animateWindows = true
+    @AppStorage("MacSnap.RestoreOnLaunch") private var restoreOnLaunch = true
+    @AppStorage("MacSnap.RunInBackground") private var runInBackground = false
 
     @State private var isCheckingPermissions = false
 

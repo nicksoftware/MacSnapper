@@ -128,7 +128,7 @@ struct SettingsView: View {
                     .foregroundColor(.secondary)
                     .multilineTextAlignment(.center)
 
-                Text("© 2024 MacSnapper. All rights reserved.")
+                Text("© 2024 Mac Snap. All rights reserved.")
                     .font(.caption)
                     .foregroundColor(.secondary)
             }

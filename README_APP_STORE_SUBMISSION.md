@@ -1,8 +1,8 @@
-# MacSnapper App Store Submission Guide
+# Mac Snap App Store Submission Guide
 
 ## 🚀 **Revenue-Ready Setup Complete!**
 
-MacSnapper is now configured with **real StoreKit 2 integration** for generating actual revenue from the App Store. Here's everything you need to know to start making money.
+Mac Snap is now configured with **real StoreKit 2 integration** for generating actual revenue from the App Store. Here's everything you need to know to start making money.
 
 ---
 
@@ -30,8 +30,8 @@ MacSnapper is now configured with **real StoreKit 2 integration** for generating
 1. Log into [App Store Connect](https://appstoreconnect.apple.com)
 2. Click "My Apps" → "+" → "New App"
 3. Fill in app details:
-   - **Bundle ID**: `com.nicksoftware.macsnapper` (match your Xcode project)
-   - **Name**: "MacSnapper Pro"
+   - **Bundle ID**: `com.nicksoftware.macsnap` (match your Xcode project)
+- **Name**: "Mac Snap Pro"
    - **Category**: Productivity
    - **Platforms**: macOS
 
@@ -39,25 +39,25 @@ MacSnapper is now configured with **real StoreKit 2 integration** for generating
 Go to "Features" → "In-App Purchases" → "Manage":
 
 #### **Monthly Subscription**
-- **Product ID**: `com.nicksoftware.macsnapper.premium.monthly`
-- **Reference Name**: "MacSnapper Pro Monthly"
+- **Product ID**: `com.nicksoftware.macsnap.premium.monthly`
+- **Reference Name**: "Mac Snap Pro Monthly"
 - **Type**: Auto-Renewable Subscription
-- **Subscription Group**: "MacSnapper Premium"
+- **Subscription Group**: "Mac Snap Premium"
 - **Price**: $4.99/month
 - **Display Name**: "Monthly Premium"
 - **Description**: "Unlock all premium window management features"
 
 #### **Annual Subscription**
-- **Product ID**: `com.nicksoftware.macsnapper.premium.annual`
-- **Reference Name**: "MacSnapper Pro Annual"
+- **Product ID**: `com.nicksoftware.macsnap.premium.annual`
+- **Reference Name**: "Mac Snap Pro Annual"
 - **Type**: Auto-Renewable Subscription
-- **Subscription Group**: "MacSnapper Premium"
+- **Subscription Group**: "Mac Snap Premium"
 - **Price**: $39.99/year
 - **Display Name**: "Annual Premium"
 - **Description**: "Best value - Save 33% vs monthly subscription"
 
 ### **3. Configure Subscription Group**
-- **Group Name**: "MacSnapper Premium"
+- **Group Name**: "Mac Snap Premium"
 - **Rank**: Set annual as rank 1 (higher priority)
 - **Family Sharing**: Enabled
 
@@ -70,8 +70,8 @@ The following product IDs are already configured in `StoreKitSubscriptionService
 
 ```swift
 public enum ProductID: String, CaseIterable {
-    case monthlyPremium = "com.nicksoftware.macsnapper.premium.monthly"
-    case annualPremium = "com.nicksoftware.macsnapper.premium.annual"
+    case monthlyPremium = "com.nicksoftware.macsnap.premium.monthly"
+case annualPremium = "com.nicksoftware.macsnap.premium.annual"
 }
 ```
 
@@ -91,7 +91,7 @@ In `SubscriptionServiceAdapter.swift`, the app automatically uses:
 
 ### **App Description Template**
 ```
-MacSnapper Pro - Professional Window Management
+Mac Snap Pro - Professional Window Management
 
 Transform your Mac productivity with intelligent window snapping and management. Perfect for developers, designers, and power users who demand precision.
 
@@ -109,7 +109,7 @@ Transform your Mac productivity with intelligent window snapping and management.
 • Application exclusion controls
 • Precision pixel-perfect positioning
 
-✨ WHY CHOOSE MACSNAPPER PRO:
+✨ WHY CHOOSE MAC SNAP PRO:
 • Blazing-fast performance - works instantly
 • Native macOS design and feel
 • Background operation - works when minimized
