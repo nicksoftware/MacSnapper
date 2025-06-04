@@ -78,12 +78,16 @@ struct MacSnapperApp: App {
 
         // Setup app lifecycle handlers
         setupAppLifecycle()
+
+        // Show window on first launch or if in regular app mode
+        showWindowIfNeeded()
     }
 
         private func setupBackgroundOperation() {
         #if canImport(AppKit)
-        // Check user preference for background operation (default: true for best performance)
-        let runInBackground = UserDefaults.standard.object(forKey: "MacSnapper.RunInBackground") as? Bool ?? true
+        // Check user preference for background operation (default: false for better user experience)
+        // Advanced users can enable background mode in settings for optimal performance
+        let runInBackground = UserDefaults.standard.object(forKey: "MacSnapper.RunInBackground") as? Bool ?? false
 
         if runInBackground {
             // Run in background (no dock icon) - fastest hotkey response
@@ -147,6 +151,32 @@ struct MacSnapperApp: App {
         #if canImport(AppKit)
         let appearance = NSApp.effectiveAppearance.name
         print("🎨 Using appearance: \(appearance)")
+        #endif
+    }
+
+    private func showWindowIfNeeded() {
+        #if canImport(AppKit)
+        let isFirstLaunch = !UserDefaults.standard.bool(forKey: "MacSnapper.HasLaunchedBefore")
+        let runInBackground = UserDefaults.standard.object(forKey: "MacSnapper.RunInBackground") as? Bool ?? false
+
+        // Show window on first launch or if not in background mode
+        if isFirstLaunch || !runInBackground {
+            DispatchQueue.main.async {
+                NSApp.activate(ignoringOtherApps: true)
+
+                // Bring the main window to front
+                if let window = NSApp.windows.first {
+                    window.makeKeyAndOrderFront(nil)
+                    window.orderFrontRegardless()
+                }
+            }
+
+            // Mark that we've launched before
+            if isFirstLaunch {
+                UserDefaults.standard.set(true, forKey: "MacSnapper.HasLaunchedBefore")
+                print("👋 First launch - showing welcome window")
+            }
+        }
         #endif
     }
 }

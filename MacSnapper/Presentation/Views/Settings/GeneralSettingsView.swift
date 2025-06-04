@@ -17,7 +17,7 @@ struct GeneralSettingsView: View {
     @AppStorage("MacSnapper.ShowNotifications") private var showNotifications = true
     @AppStorage("MacSnapper.AnimateWindows") private var animateWindows = true
     @AppStorage("MacSnapper.RestoreOnLaunch") private var restoreOnLaunch = true
-    @AppStorage("MacSnapper.RunInBackground") private var runInBackground = true
+    @AppStorage("MacSnapper.RunInBackground") private var runInBackground = false
 
     @State private var isCheckingPermissions = false
 
