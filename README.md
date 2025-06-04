@@ -1,6 +1,10 @@
 # Mac Snap 🪟
 
-A professional macOS window manager built with SwiftUI and Clean Architecture principles. Mac Snap provides powerful window snapping and management capabilities with a beautiful, intuitive interface.
+**Professional Window Snapping for macOS**
+
+![Mac Snap Logo](logo.svg)
+
+Mac Snap is a powerful and intuitive window management utility for macOS that makes organizing your workspace effortless. With intelligent window snapping, customizable shortcuts, and a clean interface, Mac Snap helps you maximize productivity by keeping your windows perfectly organized.
 
 ![Swift](https://img.shields.io/badge/Swift-5.9-orange.svg)
 ![Platform](https://img.shields.io/badge/Platform-macOS%2014.0+-blue.svg)
@@ -8,6 +12,24 @@ A professional macOS window manager built with SwiftUI and Clean Architecture pr
 ![License](https://img.shields.io/badge/License-MIT-lightgrey.svg)
 
 ## ✨ Features
+
+### 🎯 Core Functionality
+- **Smart Window Snapping**: Snap windows to halves, quarters, thirds, and custom positions
+- **Drag & Drop Snapping**: Intuitive window snapping by dragging to screen edges
+- **Multi-Monitor Support**: Full support for multiple displays with individual snapping zones
+- **Custom Presets**: Create and save custom window arrangements
+
+### 🔧 Customization
+- **Global Hotkeys**: Customizable keyboard shortcuts for all snapping actions
+- **Exclusion Lists**: Exclude specific applications from snapping
+- **Visual Feedback**: Real-time preview of window positions during snapping
+- **Menu Bar Integration**: Quick access via menu bar icon
+
+### 💎 Professional Design
+- **Modern macOS Interface**: Native SwiftUI design following Apple's Human Interface Guidelines
+- **Professional Logo**: Custom-designed gradient app icon with window snapping iconography
+- **Clean Architecture**: Built with Domain-Driven Design and SOLID principles
+- **Performance Optimized**: Minimal memory footprint and CPU usage
 
 ### Core Window Management
 - **Precise Window Snapping**: Left/Right halves, quarters, thirds, and custom positions
@@ -301,6 +323,21 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - Built with Apple's Accessibility APIs
 - Architecture influenced by Clean Architecture principles by Uncle Bob
 - SwiftUI design patterns from Apple's Human Interface Guidelines
+
+## Development
+
+### 🎨 App Icon Generation
+The professional app icon is generated from the SVG logo using the included script:
+
+```bash
+./scripts/create_app_icon.sh
+```
+
+This script:
+- Converts the SVG logo to all required macOS icon sizes (16x16 to 1024x1024)
+- Creates both 1x and 2x (retina) versions
+- Generates the .icns file for the app bundle
+- Updates the Xcode asset catalog with proper file references
 
 ---
 
