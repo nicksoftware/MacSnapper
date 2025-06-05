@@ -64,7 +64,7 @@ struct GeneralSettingsView: View {
                 .font(.system(size: 48))
                 .foregroundStyle(.blue.gradient)
 
-            Text("MacSnapper Pro")
+            Text("Mac Snap Pro")
                 .font(.title2)
                 .fontWeight(.bold)
 
