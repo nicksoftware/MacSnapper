@@ -240,20 +240,20 @@ private extension WindowManagementUseCase {
     }
 
     func getDefaultKeyboardShortcut(for snapType: SnapType) -> KeyboardShortcut? {
-        // Define default keyboard shortcuts similar to Rectangle
+        // Define default keyboard shortcuts using Option+Control
         switch snapType {
         case .leftHalf:
-            return KeyboardShortcut(modifiers: [.command, .option], key: KeyEquivalent("←"))
+            return KeyboardShortcut(modifiers: [.option, .control], key: KeyEquivalent("←"))
         case .rightHalf:
-            return KeyboardShortcut(modifiers: [.command, .option], key: KeyEquivalent("→"))
+            return KeyboardShortcut(modifiers: [.option, .control], key: KeyEquivalent("→"))
         case .topHalf:
-            return KeyboardShortcut(modifiers: [.command, .option], key: KeyEquivalent("↑"))
+            return KeyboardShortcut(modifiers: [.option, .control], key: KeyEquivalent("↑"))
         case .bottomHalf:
-            return KeyboardShortcut(modifiers: [.command, .option], key: KeyEquivalent("↓"))
+            return KeyboardShortcut(modifiers: [.option, .control], key: KeyEquivalent("↓"))
         case .maximize:
-            return KeyboardShortcut(modifiers: [.command, .option], key: KeyEquivalent("f"))
+            return KeyboardShortcut(modifiers: [.option, .control], key: KeyEquivalent("f"))
         case .center:
-            return KeyboardShortcut(modifiers: [.command, .option], key: KeyEquivalent("c"))
+            return KeyboardShortcut(modifiers: [.option, .control], key: KeyEquivalent("c"))
         default:
             return nil
         }

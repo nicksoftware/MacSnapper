@@ -70,10 +70,10 @@ Mac Snap needs these permissions to function:
 ### 1. Configure Global Hotkeys
 
 Default hotkeys:
-- `⌘ + ←` - Snap left half
-- `⌘ + →` - Snap right half
-- `⌘ + ↑` - Maximize window
-- `⌘ + ↓` - Center window
+- `⌥⌃ + ←` - Snap left half
+- `⌥⌃ + →` - Snap right half
+- `⌥⌃ + ↑` - Maximize window
+- `⌥⌃ + ↓` - Center window
 
 To customize:
 1. Open Mac Snap preferences

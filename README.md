@@ -237,13 +237,13 @@ cd MacSnap
 - **Focused Window**: Snap the currently active window without opening the main app
 - **Status Indicator**: Visual feedback on permission status
 
-### Keyboard Shortcuts (Planned)
-- `Cmd+Opt+←`: Snap left half
-- `Cmd+Opt+→`: Snap right half
-- `Cmd+Opt+↑`: Snap top half
-- `Cmd+Opt+↓`: Snap bottom half
-- `Cmd+Opt+F`: Maximize window
-- `Cmd+Opt+C`: Center window
+### Keyboard Shortcuts
+- `⌥⌃+←`: Snap left half
+- `⌥⌃+→`: Snap right half
+- `⌥⌃+↑`: Snap top half
+- `⌥⌃+↓`: Snap bottom half
+- `⌥⌃+F`: Maximize window
+- `⌥⌃+C`: Center window
 
 ## 🧪 Testing
 

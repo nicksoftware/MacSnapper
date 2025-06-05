@@ -283,35 +283,35 @@ extension SnapType {
     var defaultShortcut: String? {
         switch self {
         case .leftHalf:
-            return "⌥⌘←"
+            return "⌥⌃←"
         case .rightHalf:
-            return "⌥⌘→"
+            return "⌥⌃→"
         case .topHalf:
-            return "⌥⌘↑"
+            return "⌥⌃↑"
         case .bottomHalf:
-            return "⌥⌘↓"
+            return "⌥⌃↓"
         case .maximize:
-            return "⌥⌘F"
+            return "⌥⌃F"
         case .center:
-            return "⌥⌘C"
+            return "⌥⌃C"
         case .topLeftQuarter:
-            return "⌥⌘1"
+            return "⌥⌃1"
         case .topRightQuarter:
-            return "⌥⌘2"
+            return "⌥⌃2"
         case .bottomLeftQuarter:
-            return "⌥⌘3"
+            return "⌥⌃3"
         case .bottomRightQuarter:
-            return "⌥⌘4"
+            return "⌥⌃4"
         case .leftThird:
-            return "⌥⌘Q"
+            return "⌥⌃Q"
         case .centerThird:
-            return "⌥⌘W"
+            return "⌥⌃W"
         case .rightThird:
-            return "⌥⌘E"
+            return "⌥⌃E"
         case .leftTwoThirds:
-            return "⌥⌘A"
+            return "⌥⌃A"
         case .rightTwoThirds:
-            return "⌥⌘S"
+            return "⌥⌃S"
         case .custom, .minimize, .restore:
             return nil
         }

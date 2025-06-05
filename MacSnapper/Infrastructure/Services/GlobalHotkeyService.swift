@@ -34,20 +34,20 @@ public final class GlobalHotkeyService: ObservableObject {
         logger.info("Registering default hotkeys")
 
         let defaultHotkeys: [(SnapType, UInt32, UInt32)] = [
-            // Basic snapping with Option+Command
-            (.leftHalf, 123, UInt32(optionKey | cmdKey)),      // ⌥⌘ + Left Arrow
-            (.rightHalf, 124, UInt32(optionKey | cmdKey)),     // ⌥⌘ + Right Arrow
-            (.topHalf, 126, UInt32(optionKey | cmdKey)),       // ⌥⌘ + Up Arrow
-            (.bottomHalf, 125, UInt32(optionKey | cmdKey)),    // ⌥⌘ + Down Arrow
-            (.maximize, 3, UInt32(optionKey | cmdKey)),        // ⌥⌘ + F
-            (.maximize, 36, UInt32(optionKey | cmdKey)),       // ⌥⌘ + Enter (Return)
-            (.center, 8, UInt32(optionKey | cmdKey)),          // ⌥⌘ + C
+            // Basic snapping with Option+Control
+            (.leftHalf, 123, UInt32(optionKey | controlKey)),      // ⌥⌃ + Left Arrow
+            (.rightHalf, 124, UInt32(optionKey | controlKey)),     // ⌥⌃ + Right Arrow
+            (.topHalf, 126, UInt32(optionKey | controlKey)),       // ⌥⌃ + Up Arrow
+            (.bottomHalf, 125, UInt32(optionKey | controlKey)),    // ⌥⌃ + Down Arrow
+            (.maximize, 3, UInt32(optionKey | controlKey)),        // ⌥⌃ + F
+            (.maximize, 36, UInt32(optionKey | controlKey)),       // ⌥⌃ + Enter (Return)
+            (.center, 8, UInt32(optionKey | controlKey)),          // ⌥⌃ + C
 
             // Quarters
-            (.topLeftQuarter, 18, UInt32(optionKey | cmdKey)),     // ⌥⌘ + 1
-            (.topRightQuarter, 19, UInt32(optionKey | cmdKey)),    // ⌥⌘ + 2
-            (.bottomLeftQuarter, 20, UInt32(optionKey | cmdKey)),  // ⌥⌘ + 3
-            (.bottomRightQuarter, 21, UInt32(optionKey | cmdKey))  // ⌥⌘ + 4
+            (.topLeftQuarter, 18, UInt32(optionKey | controlKey)),     // ⌥⌃ + 1
+            (.topRightQuarter, 19, UInt32(optionKey | controlKey)),    // ⌥⌃ + 2
+            (.bottomLeftQuarter, 20, UInt32(optionKey | controlKey)),  // ⌥⌃ + 3
+            (.bottomRightQuarter, 21, UInt32(optionKey | controlKey))  // ⌥⌃ + 4
         ]
 
         for (snapType, keyCode, modifiers) in defaultHotkeys {
@@ -63,12 +63,12 @@ public final class GlobalHotkeyService: ObservableObject {
         logger.info("Registering premium hotkeys")
 
         let premiumHotkeys: [(SnapType, UInt32, UInt32)] = [
-            // Thirds with Option+Command
-            (.leftThird, 12, UInt32(optionKey | cmdKey)),        // ⌥⌘ + Q
-            (.centerThird, 13, UInt32(optionKey | cmdKey)),      // ⌥⌘ + W
-            (.rightThird, 14, UInt32(optionKey | cmdKey)),       // ⌥⌘ + E
-            (.leftTwoThirds, 0, UInt32(optionKey | cmdKey)),     // ⌥⌘ + A
-            (.rightTwoThirds, 1, UInt32(optionKey | cmdKey))     // ⌥⌘ + S
+            // Thirds with Option+Control
+            (.leftThird, 12, UInt32(optionKey | controlKey)),        // ⌥⌃ + Q
+            (.centerThird, 13, UInt32(optionKey | controlKey)),      // ⌥⌃ + W
+            (.rightThird, 14, UInt32(optionKey | controlKey)),       // ⌥⌃ + E
+            (.leftTwoThirds, 0, UInt32(optionKey | controlKey)),     // ⌥⌃ + A
+            (.rightTwoThirds, 1, UInt32(optionKey | controlKey))     // ⌥⌃ + S
         ]
 
         for (snapType, keyCode, modifiers) in premiumHotkeys {
@@ -217,7 +217,7 @@ public final class GlobalHotkeyService: ObservableObject {
             let keyCode = event.keyCode
 
             // Check if this matches any registered hotkeys
-            if modifiers.contains([.option, .command]) {
+            if modifiers.contains([.option, .control]) {
                 let snapType = self.getSnapTypeForKeyCode(keyCode)
                 if let snapType = snapType, self.registeredHotkeys.keys.contains(snapType) {
                     self.logger.info("Local hotkey triggered for \(snapType.displayName)")
