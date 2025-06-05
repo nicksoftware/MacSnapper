@@ -119,7 +119,8 @@ public final class GlobalHotkeyService: ObservableObject {
             selfPtr,
             &eventHandler
         )
-
+        
+        
         if status != noErr {
             logger.error("Failed to install event handler: \(status)")
             registrationError = "Failed to install global event handler"
