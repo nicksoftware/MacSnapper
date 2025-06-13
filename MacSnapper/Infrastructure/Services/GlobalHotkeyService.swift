@@ -43,7 +43,13 @@ public final class GlobalHotkeyService: ObservableObject {
             (.maximize, 36, UInt32(optionKey | controlKey)),       // ⌥⌃ + Enter (Return)
             (.center, 8, UInt32(optionKey | controlKey)),          // ⌥⌃ + C
 
-            // Quarters
+
+             // Quarters 
+             (.topLeftQuarter, 32, UInt32(optionKey | controlKey)),     // ⌥⌃ + U
+             (.topRightQuarter, 34, UInt32(optionKey | controlKey)),    // ⌥⌃ + I
+             (.bottomLeftQuarter, 38, UInt32(optionKey | controlKey)),  // ⌥⌃ + J
+             (.bottomRightQuarter, 40, UInt32(optionKey | controlKey)) ,
+              // ⌥⌃ + K
             (.topLeftQuarter, 18, UInt32(optionKey | controlKey)),     // ⌥⌃ + 1
             (.topRightQuarter, 19, UInt32(optionKey | controlKey)),    // ⌥⌃ + 2
             (.bottomLeftQuarter, 20, UInt32(optionKey | controlKey)),  // ⌥⌃ + 3
@@ -119,8 +125,7 @@ public final class GlobalHotkeyService: ObservableObject {
             selfPtr,
             &eventHandler
         )
-        
-        
+
         if status != noErr {
             logger.error("Failed to install event handler: \(status)")
             registrationError = "Failed to install global event handler"
